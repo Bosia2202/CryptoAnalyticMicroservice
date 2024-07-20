@@ -1,4 +1,4 @@
-package com.cryptomarket.cryptoanalyticmicroservice.Kafka;
+package com.cryptomarket.cryptoanalyticmicroservice.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

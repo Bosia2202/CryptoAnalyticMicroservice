@@ -1,4 +1,4 @@
-package com.cryptomarket.cryptoanalyticmicroservice.Kafka;
+package com.cryptomarket.cryptoanalyticmicroservice.kafka;
 
 import lombok.Data;
 import java.io.Serializable;
@@ -15,4 +15,3 @@ public class CryptoBriefInfoKafkaDto implements Serializable {
     private final double totalSupply;
     private final double maxSupply;
 }
-
