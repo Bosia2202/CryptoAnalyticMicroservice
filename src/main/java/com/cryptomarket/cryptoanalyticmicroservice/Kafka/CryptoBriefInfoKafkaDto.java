@@ -1,17 +1,20 @@
 package com.cryptomarket.cryptoanalyticmicroservice.kafka;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.io.Serializable;
+import lombok.NoArgsConstructor;
 
 @Data
-public class CryptoBriefInfoKafkaDto implements Serializable {
-    private final String symbol;
-    private final String name;
-    private final double currentPrice;
-    private final float percentChange1h;
-    private final float percentChange24h;
-    private final float percentChange7d;
-    private final double circulatingSupply;
-    private final double totalSupply;
-    private final double maxSupply;
+@AllArgsConstructor
+@NoArgsConstructor
+public class CryptoBriefInfoKafkaDto {
+    private String symbol;
+    private String name;
+    private double currentPrice;
+    private float percentChange1h;
+    private float percentChange24h;
+    private float percentChange7d;
+    private double circulatingSupply;
+    private double totalSupply;
+    private double maxSupply;
 }

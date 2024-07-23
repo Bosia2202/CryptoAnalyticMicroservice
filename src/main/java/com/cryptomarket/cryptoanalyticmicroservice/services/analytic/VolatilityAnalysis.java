@@ -1,26 +1,17 @@
-package com.cryptomarket.cryptoanalyticmicroservice.services;
+package com.cryptomarket.cryptoanalyticmicroservice.services.analytic;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import com.cryptomarket.cryptoanalyticmicroservice.interfaces.services.VolatilityAnalysisInterface;
 import com.cryptomarket.cryptoanalyticmicroservice.models.VolatilityInfo;
 import com.cryptomarket.cryptoanalyticmicroservice.services.status.volatility.ShortVolatilityStatus;
 import com.cryptomarket.cryptoanalyticmicroservice.services.status.volatility.VolatilityStatus;
 import com.cryptomarket.cryptoanalyticmicroservice.services.status.volatility.VolatilityTrendStatus;
 
-@Service
-public class VolatilityService {
+@Component
+public class VolatilityAnalysis implements VolatilityAnalysisInterface {
 
-    private ShortVolatilityStatus shortVolatilityStatus;
-    private VolatilityStatus volatilityStatus;
-    private VolatilityTrendStatus volatilityTrendStatus;
-
-    public VolatilityService(ShortVolatilityStatus shortVolatilityStatus, VolatilityStatus volatilityStatus,
-            VolatilityTrendStatus volatilityTrendStatus) {
-        this.shortVolatilityStatus = shortVolatilityStatus;
-        this.volatilityStatus = volatilityStatus;
-        this.volatilityTrendStatus = volatilityTrendStatus;
-    }
-
+    @Override
     public VolatilityInfo getVolatility(float percentChange1h, float percentChange24h, float percentChange7d) {
         return new VolatilityInfo(
                 calculateVolatility(percentChange1h, percentChange24h, percentChange7d),
@@ -31,12 +22,12 @@ public class VolatilityService {
     private VolatilityStatus calculateVolatility(float percentChange1h, float percentChange24h, float percentChange7d) {
         float averageValue = getAveragePercent(percentChange1h, percentChange24h, percentChange7d);
         if (averageValue > 8) {
-            return volatilityStatus.HIGHT;
+            return VolatilityStatus.HIGHT;
         }
         if (averageValue > 3) {
-            return volatilityStatus.MIDDLE;
+            return VolatilityStatus.MIDDLE;
         } else {
-            return volatilityStatus.LOW;
+            return VolatilityStatus.LOW;
         }
     }
 
@@ -47,20 +38,20 @@ public class VolatilityService {
 
     private ShortVolatilityStatus calculateShortVolatility(float percentChange1h) {
         if (Math.abs(percentChange1h) > 5) {
-            return shortVolatilityStatus.HIGHT;
+            return ShortVolatilityStatus.HIGHT;
         }
-        return shortVolatilityStatus.MODERATE;
+        return ShortVolatilityStatus.MODERATE;
     }
 
-    private VolatilityTrendStatus analyticTrend(float percent_change_1h, float percent_change_24h,
-            float percent_change_7d) {
-        if (percent_change_1h > 0 && percent_change_24h > 0 && percent_change_7d > 0) {
-            return volatilityTrendStatus.UPTREND;
+    private VolatilityTrendStatus analyticTrend(float percentChange1h, float percentChange24h,
+            float percentChange7d) {
+        if (percentChange1h > 0 && percentChange24h > 0 && percentChange7d > 0) {
+            return VolatilityTrendStatus.UPTREND;
         } else {
-            if (percent_change_1h < 0 && percent_change_24h < 0 && percent_change_7d < 0) {
-                return volatilityTrendStatus.DOWNTREND;
+            if (percentChange1h < 0 && percentChange24h < 0 && percentChange7d < 0) {
+                return VolatilityTrendStatus.DOWNTREND;
             } else {
-                return volatilityTrendStatus.MIXEDTREND;
+                return VolatilityTrendStatus.MIXEDTREND;
             }
         }
     }
